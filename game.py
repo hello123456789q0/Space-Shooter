@@ -43,7 +43,7 @@ sound_on = True
 
 # Data settings
 score_file = "data/high_score.txt"
-default_high_score = 1000
+default_high_score = 1
 
 
 # Make window
@@ -92,7 +92,7 @@ def start():
 def setup():
     global aliens, bombs, bullets, stage, ticks
 
-    a1 = Alien(400, 90, alien_speed)
+    a1 = Alien(-400, 90, alien_speed)
     a2 = Alien(500, 90, alien_speed)
     a3 = Alien(600, 90, alien_speed)
     a4 = Alien(500, 150, alien_speed)
@@ -145,7 +145,14 @@ def display_end_screen(screen):
     screen.blit(sample_text, [WIDTH // 2 - sample_text.get_rect().width // 2 , 300])
 
 def display_stats(screen, score, level, high_score, shield):
-    pass
+   score_text = FONT_SM.render("Score: " + str(score), True, WHITE)
+   highscore_text = FONT_SM.render("High score: " + str(high_score), True, WHITE)
+   shield_text = FONT_SM.render("Shield: " + str(shield), True, WHITE)
+   level_text = FONT_SM.render("Level: " + str(level), True, WHITE)
+   screen.blit(shield_text, [10, 600])
+   screen.blit(score_text, [WIDTH // 2  - score_text.get_rect().width // 2, 10])
+   screen.blit(highscore_text, [10, 10])
+   screen.blit(level_text, [850, 600])
 
 
 # Make scenery objects
@@ -209,6 +216,9 @@ while not done:
             stage = PLAYING
 
     if stage == PLAYING:
+        if score > high_score:
+            high_score = score
+            
         # process scenery
         stars.update()
 
